@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E.E.S N°32 — Secundaria Pública | Moreno</title>
+
+    <style>
+        :root {
+            --bg-dark: #080d19;
+            --bg-card: #0f1629;
+            --bg-glass: rgba(11, 18, 35, 0.78);
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --blue-glow: #93c5fd;
+            --gold: #c8a951;
+            --gold-light: #e2c87a;
+            --gold-soft: #d4b860;
+            --text: #e2e8f0;
+            --text-secondary: #b0bdd0;
+            --text-muted: #7b8ca5;
+            --border-glass: rgba(255, 255, 255, 0.07);
+            --border-subtle: rgba(255, 255, 255, 0.13);
+            --shadow-glow: 0 0 50px rgba(59, 130, 246, 0.18);
+            --shadow-card: 0 10px 36px rgba(0, 0, 0, 0.4);
+            --radius-xl: 24px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --radius-xs: 7px;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --font-main: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        /* ============ HEADER GLASS ============ */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 28px;
+            background: rgba(8, 13, 25, 0.68);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid var(--border-glass);
+            transition: all 0.4s var(--transition-smooth);
+            gap: 16px;
+        }
+        header.scrolled {
+            background: rgba(8, 13, 25, 0.92);
+            box-shadow: 0 6px 34px rgba(0, 0, 0, 0.55);
+            padding: 8px 28px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .logo-img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 0 22px rgba(59, 130, 246, 0.32);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: #1e293b;
+            flex-shrink: 0;
+        }
+        .header-left:hover .logo-img {
+            transform: scale(1.07);
+            box-shadow: 0 0 36px rgba(59, 130, 246, 0.5);
+        }
+        .header-title h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: #fff;
+            line-height: 1.2;
+        }
+        .header-title span {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.4px;
+        }
+        .nav-desktop {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-desktop a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.84rem;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 22px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            letter-spacing: 0.1px;
+        }
+        .nav-desktop a:hover,
+        .nav-desktop a.active-link {
+            color: #fff;
+            background: rgba(59, 130, 246, 0.26);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.28);
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 1.7rem;
+            cursor: pointer;
+            color: #fff;
+            padding: 6px;
+            border-radius: 10px;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* ============ MENÚ LATERAL MÓVIL ============ */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 310px;
+            max-width: 85vw;
+            height: 100vh;
+            background: rgba(13, 20, 35, 0.96);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            z-index: 1200;
+            padding: 85px 22px 28px;
+            transition: right 0.42s var(--transition-smooth);
+            border-left: 1px solid var(--border-glass);
+            box-shadow: -10px 0 44px rgba(0, 0, 0, 0.55);
+            overflow-y: auto;
+        }
+        .side-menu.active {
+            right: 0;
+        }
+        .side-menu a {
+            display: block;
+            color: var(--text);
+            text-decoration: none;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.98rem;
+            transition: all 0.3s;
+            letter-spacing: 0.2px;
+        }
+        .side-menu a:hover,
+        .side-menu a.active-link {
+            background: rgba(59, 130, 246, 0.2);
+            color: #fff;
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+        }
+        .side-menu-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        .side-menu-close:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.58);
+            z-index: 1150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ============ HERO SLIDER ============ */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.38) saturate(1.15);
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            transform: scale(1.06);
+        }
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1.03);
+            transition: opacity 1.2s ease-in-out, transform 6s ease-in-out;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(8, 13, 25, 0.35) 0%, rgba(8, 13, 25, 0.82) 75%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 30px;
+            animation: fadeInUpHero 1.3s var(--transition-smooth);
+        }
+        @keyframes fadeInUpHero {
+            from {
+                opacity: 0;
+                transform: translateY(44px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero-content .badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.18);
+            border: 1px solid rgba(147, 197, 253, 0.35);
+            color: var(--blue-glow);
+            padding: 7px 22px;
+            border-radius: 30px;
+            font-size: 0.84rem;
+            letter-spacing: 0.6px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(6px);
+        }
+        .hero-content h2 {
+            font-size: clamp(2.3rem, 5.8vw, 4rem);
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 12px;
+            color: #fff;
+            text-shadow: 0 5px 34px rgba(0, 0, 0, 0.55);
+            line-height: 1.15;
+            transition: all 0.5s;
+        }
+        .hero-content p {
+            font-size: clamp(1rem, 2.3vw, 1.4rem);
+            max-width: 680px;
+            margin: 0 auto 30px;
+            color: var(--text-secondary);
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s;
+        }
+        .btn-hero {
+            display: inline-block;
+            padding: 15px 38px;
+            background: var(--blue);
+            color: #fff;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            transition: all 0.35s;
+            box-shadow: 0 9px 30px rgba(59, 130, 246, 0.42);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-hero:hover {
+            background: #2563eb;
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(59, 130, 246, 0.58);
+        }
+        .btn-hero:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: bounceDown 2.2s infinite;
+            cursor: pointer;
+            color: #fff;
+            font-size: 2.2rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .hero-scroll-indicator:hover {
+            opacity: 1;
+        }
+        @keyframes bounceDown {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(13px);
+            }
+        }
+        .hero-dots {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            gap: 10px;
+        }
+        .hero-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .hero-dot.active-dot {
+            background: #fff;
+            box-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+            transform: scale(1.3);
+        }
+
+        /* ============ SECCIONES GENERALES ============ */
+        .section {
+            padding: 90px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 2.8px;
+            color: var(--blue-light);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .section h2 {
+            font-size: clamp(1.8rem, 3.6vw, 2.9rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.4px;
+            color: #fff;
+        }
+        .section .subtitle {
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+        }
+
+        /* ============ TARJETAS GLASS ============ */
+        .card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.4s;
+            cursor: default;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 32px rgba(59, 130, 246, 0.1);
+            border-color: var(--border-subtle);
+        }
+
+        /* ============ TIMELINE ============ */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+            border-left: 2px solid rgba(255, 255, 255, 0.14);
+            margin-left: 8px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 36px;
+            padding-left: 24px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -39px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+            border: 3px solid var(--bg-dark);
+        }
+        .timeline-year {
+            font-weight: 700;
+            color: var(--blue-light);
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        .timeline-text {
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ============ GRID PROYECTOS / COMUNIDAD ============ */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 24px;
+        }
+        .project-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.4s;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 22px 48px rgba(0, 0, 0, 0.5);
+            border-color: var(--border-subtle);
+        }
+        .project-card-img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .project-card-body {
+            padding: 20px;
+        }
+        .project-card-body h4 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+        .project-card-body p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ============ GALERÍA ============ */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+        .gallery-item {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            background: #1e293b;
+            transition: all 0.4s;
+            position: relative;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.07);
+        }
+        .gallery-item:hover {
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.5);
+        }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            transform: scale(0.9);
+            transition: transform 0.4s;
+        }
+        .lightbox.active img {
+            transform: scale(1);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2.5rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        /* ============ NOTICIAS ============ */
+        .news-item {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 22px 26px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+        .news-item:hover {
+            border-color: var(--border-subtle);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .news-date {
+            font-size: 0.78rem;
+            color: var(--blue-light);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============ MENSAJE DESARROLLO ============ */
+        .dev-msg {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 18px;
+            background: rgba(251, 191, 36, 0.07);
+            border-left: 3px solid #f59e0b;
+            border-radius: 0 10px 10px 0;
+            color: #fcd34d;
+            font-size: 0.88rem;
+            font-weight: 500;
+            animation: fadeInMsg 0.35s;
+            letter-spacing: 0.2px;
+        }
+        .dev-msg.show {
+            display: block;
+        }
+        @keyframes fadeInMsg {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============ SECCIÓN GUARANÍ Y TALLERES ============ */
+        .guarani-section {
+            background: linear-gradient(160deg, #0e1a0e 0%, #080d19 55%, #0c1911 100%);
+            border-radius: var(--radius-xl);
+            padding: 48px 28px;
+            margin: 20px 0;
+            border: 1px solid rgba(200, 169, 81, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .guarani-section::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(200, 169, 81, 0.07) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .guarani-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.025;
+            background-image: repeating-linear-gradient(45deg, #c8a951 0, #c8a951 1px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(-45deg, #c8a951 0, #c8a951 1px, transparent 1px, transparent 20px);
+            pointer-events: none;
+        }
+        .guarani-content {
+            position: relative;
+            z-index: 1;
+        }
+        .guarani-content h3 {
+            color: var(--gold-light);
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+        .audio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 22px;
+            background: rgba(200, 169, 81, 0.1);
+            border: 1px solid rgba(200, 169, 81, 0.28);
+            border-radius: 30px;
+            cursor: pointer;
+            color: var(--gold-light);
+            font-weight: 600;
+            transition: all 0.35s;
+            margin: 6px 8px 6px 0;
+            font-size: 0.94rem;
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+        .audio-btn:hover {
+            background: rgba(200, 169, 81, 0.2);
+            box-shadow: 0 0 24px rgba(200, 169, 81, 0.2);
+        }
+        .audio-btn.playing {
+            background: rgba(200, 169, 81, 0.3);
+            box-shadow: 0 0 30px rgba(200, 169, 81, 0.38);
+            animation: pulseGold 1.2s ease-in-out infinite;
+        }
+        @keyframes pulseGold {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(200, 169, 81, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 44px rgba(200, 169, 81, 0.55);
+            }
+        }
+        .audio-btn .icon-play {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #080d19;
+            flex-shrink: 0;
+        }
+        .audio-btn.playing .icon-play {
+            background: #e2c87a;
+            animation: blinkIcon 0.5s ease-in-out infinite;
+        }
+        @keyframes blinkIcon {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.35;
+            }
+        }
+        .audio-warning {
+            display: none;
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            animation: fadeInMsg 0.3s;
+            font-weight: 500;
+        }
+        .audio-warning.show {
+            display: block;
+        }
+        .taller-btn {
+            display: inline-block;
+            padding: 16px 32px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: 40px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.3px;
+            transition: all 0.35s;
+            margin: 10px 12px 10px 0;
+        }
+        .taller-btn:hover {
+            background: rgba(59, 130, 246, 0.28);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            transform: translateY(-3px);
+        }
+        .taller-btn.active-taller {
+            background: var(--blue);
+            border-color: var(--blue);
+            box-shadow: 0 0 34px rgba(59, 130, 246, 0.5);
+        }
+        .clase-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.2px;
+            transition: all 0.3s;
+            margin: 5px 7px 5px 0;
+        }
+        .clase-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 18px rgba(255, 255, 255, 0.08);
+        }
+        .clase-btn.active-clase {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+            box-shadow: 0 0 24px rgba(59, 130, 246, 0.4);
+        }
+        .clase-content {
+            display: none;
+            margin-top: 20px;
+            animation: fadeInMsg 0.45s;
+        }
+        .clase-content.visible {
+            display: block;
+        }
+        .letra-tachada {
+            display: inline-block;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.2);
+            text-decoration: line-through;
+            text-decoration-thickness: 2px;
+            text-decoration-color: rgba(255, 100, 100, 0.5);
+            filter: blur(0.5px);
+            margin: 0 6px;
+            opacity: 0.5;
+        }
+        .letra-activa {
+            display: inline-block;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin: 0 6px;
+        }
+        .game-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            transition: all 0.3s;
+            margin: 8px 10px 8px 0;
+        }
+        .game-btn:hover {
+            background: rgba(255, 255, 255, 0.13);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        .game-btn.correct {
+            background: rgba(34, 197, 94, 0.3) !important;
+            border-color: #22c55e !important;
+            box-shadow: 0 0 28px rgba(34, 197, 94, 0.4) !important;
+            animation: pulseCorrect 0.6s ease-in-out;
+        }
+        .game-btn.incorrect {
+            background: rgba(239, 68, 68, 0.3) !important;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 28px rgba(239, 68, 68, 0.4) !important;
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes pulseCorrect {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-8px);
+            }
+            50% {
+                transform: translateX(8px);
+            }
+            75% {
+                transform: translateX(-5px);
+            }
+        }
+        .game-feedback {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            animation: fadeInMsg 0.35s;
+        }
+        .game-feedback.show {
+            display: block;
+        }
+        .game-feedback.success {
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #4ade80;
+        }
+        .game-feedback.error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+        .vocal-col {
+            display: inline-block;
+            vertical-align: top;
+            width: 48%;
+            min-width: 250px;
+            margin: 10px 1%;
+        }
+        @media (max-width: 600px) {
+            .vocal-col {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+        .vocal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(200, 169, 81, 0.08);
+            border: 1px solid rgba(200, 169, 81, 0.25);
+            border-radius: 26px;
+            cursor: pointer;
+            color: var(--gold-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            margin: 4px 6px 4px 0;
+        }
+        .vocal-btn:hover {
+            background: rgba(200, 169, 81, 0.18);
+            box-shadow: 0 0 18px rgba(200, 169, 81, 0.18);
+        }
+        .vocal-btn.playing {
+            background: rgba(200, 169, 81, 0.32);
+            box-shadow: 0 0 28px rgba(200, 169, 81, 0.35);
+            animation: pulseGold 1s ease-in-out infinite;
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-glass);
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+        .maps-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 22px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            border-radius: 26px;
+            color: var(--blue-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .maps-link:hover {
+            background: rgba(59, 130, 246, 0.28);
+            box-shadow: 0 0 22px rgba(59, 130, 246, 0.3);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .nav-desktop {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            header {
+                padding: 10px 18px;
+            }
+            .header-title h1 {
+                font-size: 1rem;
+            }
+            .logo-img {
+                width: 38px;
+                height: 38px;
+            }
+            .section {
+                padding: 56px 16px;
+            }
+            .hero-content h2 {
+                font-size: 1.9rem;
+            }
+            .timeline {
+                padding-left: 20px;
+                margin-left: 4px;
+            }
+            .timeline-item::before {
+                left: -27px;
+                width: 11px;
+                height: 11px;
+            }
+            .guarani-section {
+                padding: 28px 14px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-content h2 {
+                font-size: 1.6rem;
+            }
+            .btn-hero {
+                padding: 13px 26px;
+                font-size: 0.9rem;
+            }
+            .audio-btn {
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+            .taller-btn {
+                padding: 14px 24px;
+                font-size: 0.9rem;
+                display: block;
+                margin: 8px 0;
+            }
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mt-20 {
+            margin-top: 20px;
+        }
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- OVERLAY MENÚ -->
+    <div class="menu-overlay" id="menuOverlay" onclick="cerrarMenu()"></div>
+
+    <!-- HEADER -->
+    <header id="mainHeader">
+        <div class="header-left" onclick="scrollToSection('hero')">
+            <img src="imagenes/escudo.jpg" alt="Escudo E.E.S N°32" class="logo-img"
+            onerror="this.style.background='#2563eb'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='white'; this.style.fontWeight='bold'; this.style.fontSize='1.2rem'; this.textContent='32';">
+            <div class="header-title">
+                <h1>E.E.S N°32</h1>
+                <span>Escuela de Educación Secundaria</span>
+            </div>
+        </div>
+        <nav class="nav-desktop" id="navDesktop">
+            <a href="#hero" class="active-link" data-section="hero">Inicio</a>
+            <a href="#historia" data-section="historia">Historia</a>
+            <a href="#comunidad" data-section="comunidad">Comunidad</a>
+            <a href="#talleres" data-section="talleres">Talleres</a>
+            <a href="#proyectos" data-section="proyectos">Proyectos</a>
+            <a href="#centro-estudiantes" data-section="centro-estudiantes">Centro</a>
+            <a href="#galeria" data-section="galeria">Galería</a>
+            <a href="#noticias" data-section="noticias">Noticias</a>
+            <a href="#contacto" data-section="contacto">Contacto</a>
+        </nav>
+        <div class="menu-toggle" onclick="abrirMenu()" aria-label="Abrir menú">☰</div>
+    </header>
+
+    <!-- MENÚ LATERAL MÓVIL -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-close" onclick="cerrarMenu()">✕</div>
+        <a href="#hero" data-section="hero" onclick="cerrarMenu()">Inicio</a>
+        <a href="#historia" data-section="historia" onclick="cerrarMenu()">Historia</a>
+        <a href="#comunidad" data-section="comunidad" onclick="cerrarMenu()">Comunidad Educativa</a>
+        <a href="#talleres" data-section="talleres" onclick="cerrarMenu()">Talleres</a>
+        <a href="#proyectos" data-section="proyectos" onclick="cerrarMenu()">Proyectos</a>
+        <a href="#centro-estudiantes" data-section="centro-estudiantes" onclick="cerrarMenu()">Centro de Estudiantes</a>
+        <a href="#galeria" data-section="galeria" onclick="cerrarMenu()">Galería</a>
+        <a href="#noticias" data-section="noticias" onclick="cerrarMenu()">Noticias</a>
+        <a href="#contacto" data-section="contacto" onclick="cerrarMenu()">Contacto</a>
+    </div>
+
+    <!-- ==================== HERO SLIDER ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1400&q=80');" data-index="0"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=1400&q=80');" data-index="1"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1531844251246-9a1bfaae09fc?w=1400&q=80');" data-index="2"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content" id="heroContent">
+            <div class="badge">🌱 Secundaria Pública · Desde 2008</div>
+            <h2 id="heroTitle">Bienvenidos a la E.E.S N°32</h2>
+            <p id="heroSubtitle">Una escuela construida desde la identidad, la participación y la comunidad. Creciendo juntos, dejando huella.</p>
+            <button class="btn-hero" onclick="scrollToSection('historia')">Explorar la escuela</button>
+        </div>
+        <div class="hero-dots" id="heroDots">
+            <span class="hero-dot active-dot" data-dot="0"></span>
+            <span class="hero-dot" data-dot="1"></span>
+            <span class="hero-dot" data-dot="2"></span>
+        </div>
+        <div class="hero-scroll-indicator" onclick="scrollToSection('historia')" title="Ir a Historia">↓</div>
+    </section>
+
+    <!-- ==================== HISTORIA ==================== -->
+    <section class="section" id="historia">
+        <div class="section-label">Nuestra identidad</div>
+        <h2>Historia de la escuela</h2>
+        <p class="subtitle">Somos una institución joven, nacida del esfuerzo colectivo de una comunidad que soñó con su propia secundaria. Cada año escribimos un nuevo capítulo.</p>
+        <div class="card">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2008</div>
+                    <div class="timeline-text">Inicio como EGB compartiendo edificio con la Escuela Primaria N°8. Primer ciclo lectivo con dos divisiones y mucha ilusión.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2011</div>
+                    <div class="timeline-text">Transición a E.E.S. N°32. Primeras promociones de egresados, un hito que marcó el inicio de nuestro legado.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">25 de agosto de 2023</div>
+                    <div class="timeline-text">Inauguración del edificio propio en <strong>Barker entre Ascasubi y Trujui, Moreno</strong>. Un sueño hecho realidad para toda la comunidad.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-text">Más de 15 promociones, comunidad vibrante. Seguimos construyendo identidad, interculturalidad y participación.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== COMUNIDAD EDUCATIVA ==================== -->
+    <section class="section" id="comunidad">
+        <div class="section-label">Quiénes somos</div>
+        <h2>Comunidad Educativa</h2>
+        <p class="subtitle">Estudiantes, docentes, familias y personal auxiliar. Todos somos parte activa de esta escuela que crece día a día.</p>
+        <div class="projects-grid">
+            <div class="card">
+                <h4 style="color:#fff; margin-bottom:8px;">👩‍🎓 Estudiantes</h4>
+                <p style="color:var(--text-secondary);">Jóvenes de la zona que eligen nuestra escuela para formarse, participar y transformar su realidad.</p>
+            </div>
+            <div class="card">
+                <h4 style="color:#fff; margin-bottom:8px;">👩‍🏫 Docentes</h4>
+                <p style="color:var(--text-secondary);">Un equipo comprometido con la educación pública de calidad, la innovación pedagógica y el acompañamiento personalizado.</p>
+            </div>
+            <div class="card">
+                <h4 style="color:#fff; margin-bottom:8px;">👨‍👩‍👧‍👦 Familias</h4>
+                <p style="color:var(--text-secondary);">La cooperación entre familias y escuela es el pilar que sostiene cada proyecto y cada logro institucional.</p>
+            </div>
+            <div class="card" style="border-left: 3px solid var(--gold);">
+                <h4 style="color:#fff; margin-bottom:8px;">🧹 Auxiliares</h4>
+                <p style="color:var(--text-secondary);">Las personas encargadas de preparar los desayunos y el comedor, abrir el portón, atender el timbre y mantener limpia nuestra escuela. Su trabajo diario hace posible que todo funcione.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TALLERES ==================== -->
+    <section class="section" id="talleres">
+        <div class="section-label">Aprendizaje vivo</div>
+        <h2>Talleres</h2>
+        <p class="subtitle">Dos espacios fundamentales para nuestra identidad. Elegí uno para explorar su contenido.</p>
+        <div style="text-align:center; margin-bottom:30px;">
+            <button class="taller-btn active-taller" id="btnTallerDanza" onclick="mostrarTaller('danza')">💃 Taller de Danza Folklórica Guaraní</button>
+            <button class="taller-btn" id="btnTallerGuarani" onclick="mostrarTaller('guarani')">🌿 Taller de Lengua y Cultura Guaraní</button>
+        </div>
+
+        <!-- SUB-SECCIÓN DANZA -->
+        <div class="guarani-section" id="tallerDanza" style="display:block;">
+            <div class="guarani-pattern"></div>
+            <div class="guarani-content">
+                <h3>💃 Danza Folklórica Guaraní</h3>
+                <p style="color:var(--text-secondary); margin-bottom:20px;">Un espacio para conectar con el movimiento, la música y la tradición guaraní a través de la danza.</p>
+                <div id="clasesDanza">
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 1</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 2</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 3</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 4</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 5</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 6</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 7</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'danza')">Clase 8</button>
+                </div>
+                <div class="dev-msg" id="msgDanza" style="margin-top:14px;"></div>
+            </div>
+        </div>
+
+        <!-- SUB-SECCIÓN GUARANÍ -->
+        <div class="guarani-section" id="tallerGuarani" style="display:none;">
+            <div class="guarani-pattern"></div>
+            <div class="guarani-content">
+                <h3>🌿 Lengua y Cultura Guaraní</h3>
+                <p style="color:var(--text-secondary); margin-bottom:20px;">Un espacio para reconocer las voces, palabras y memorias que viven en nuestras familias y en nuestra comunidad.</p>
+                <div id="clasesGuarani">
+                    <button class="clase-btn" onclick="mostrarClaseGuarani(1, this)">Clase 1</button>
+                    <button class="clase-btn" onclick="mostrarClaseGuarani(2, this)">Clase 2</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 3</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 4</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 5</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 6</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 7</button>
+                    <button class="clase-btn" onclick="mostrarMensajeClase(this, 'guarani')">Clase 8</button>
+                </div>
+                <div class="dev-msg" id="msgGuarani" style="margin-top:14px;"></div>
+
+                <!-- CONTENIDO CLASE 1 -->
+                <div class="clase-content" id="clase1Content">
+                    <h3 style="color:var(--gold-light); margin-top:20px;">Achegety — El abecedario guaraní</h3>
+                    <p style="color:var(--text-secondary); margin-bottom:16px;">El guaraní tiene su propio alfabeto, llamado <strong>Achegety</strong>. Algunas letras del español no existen en guaraní, y hay sonidos únicos que no están en castellano.</p>
+                    <p style="color:var(--text-muted); margin-bottom:10px;"><strong>Letras que NO existen en guaraní:</strong></p>
+                    <div style="text-align:center; margin:16px 0;">
+                        <span class="letra-tachada">C</span>
+                        <span class="letra-tachada">F</span>
+                        <span class="letra-tachada">Q</span>
+                        <span class="letra-tachada">W</span>
+                        <span class="letra-tachada">X</span>
+                        <span class="letra-tachada">Z</span>
+                    </div>
+                    <p style="color:var(--text-muted); margin-bottom:10px;">El signo <strong style="color:var(--gold-light);">ʼ</strong> se llama <strong>puso</strong> y representa una pausa glotal (cierre breve de la garganta).</p>
+                    <p style="color:var(--text-muted); margin-bottom:20px;"><strong>Consonantes principales:</strong> CH, G, G̃, H, J, K, L, M, MB, N, ND, NG, NT, Ñ, P, R, RR, S, T, V, ʼ</p>
+                    <h4 style="color:var(--gold-light); margin-bottom:12px;">🔊 Escuchá la pronunciación</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px;" id="audioBtnsClase1">
+                        <button class="audio-btn" data-audio="audios/chipa.ogg" onclick="reproducirAudio(this)">
+                            <span class="icon-play">▶</span> CH (chipa)
+                        </button>
+                        <button class="audio-btn" data-audio="audios/hovy.ogg" onclick="reproducirAudio(this)">
+                            <span class="icon-play">▶</span> H (hovy)
+                        </button>
+                        <button class="audio-btn" data-audio="audios/jagua.ogg" onclick="reproducirAudio(this)">
+                            <span class="icon-play">▶</span> J (jagua)
+                        </button>
+                        <button class="audio-btn" data-audio="audios/g-suave.ogg" onclick="reproducirAudio(this)">
+                            <span class="icon-play">▶</span> G (suave)
+                        </button>
+                        <button class="audio-btn" data-audio="audios/g-nasal.ogg" onclick="reproducirAudio(this)">
+                            <span class="icon-play">▶</span> G̃ (nasal)
+                        </button>
+                    </div>
+                    <div class="audio-warning" id="audioWarning1">Esperá a que termine el audio actual.</div>
+                    <p style="color:var(--text-muted); margin-top:12px; font-size:0.82rem;">Solo se reproduce un audio a la vez. Si tocás otro mientras uno suena, vibrará el dispositivo.</p>
+
+                    <!-- JUEGO CLASE 1 -->
+                    <h4 style="color:var(--gold-light); margin-top:24px; margin-bottom:10px;">🎮 Juego: ¿Cuál pertenece al Achegety?</h4>
+                    <p style="color:var(--text-secondary); margin-bottom:10px;">Tocá la palabra que está escrita correctamente en guaraní:</p>
+                    <button class="game-btn" id="gameBtn1a" onclick="verificarJuego1('chipa', this)">🍞 chipa</button>
+                    <button class="game-btn" id="gameBtn1b" onclick="verificarJuego1('yagua', this)">🐕 yagua</button>
+                    <div class="game-feedback" id="gameFeedback1"></div>
+                </div>
+
+                <!-- CONTENIDO CLASE 2 -->
+                <div class="clase-content" id="clase2Content">
+                    <h3 style="color:var(--gold-light); margin-top:20px;">Las 12 vocales del guaraní</h3>
+                    <p style="color:var(--text-secondary); margin-bottom:16px;">El guaraní tiene <strong>12 vocales</strong>: 6 orales y 6 nasales. La <strong>Y</strong> es gutural (similar a la "u" francesa o la "ü" alemana). Las nasales se pronuncian dejando salir aire por la nariz.</p>
+                    <div style="display:flex; flex-wrap:wrap; gap:20px;">
+                        <div class="vocal-col">
+                            <h4 style="color:#fff; margin-bottom:10px;">🗣️ Orales</h4>
+                            <button class="vocal-btn" data-audio="audios/vocal-a.ogg" onclick="reproducirAudio(this)">A</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-e.ogg" onclick="reproducirAudio(this)">E</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-i.ogg" onclick="reproducirAudio(this)">I</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-o.ogg" onclick="reproducirAudio(this)">O</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-u.ogg" onclick="reproducirAudio(this)">U</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-y.ogg" onclick="reproducirAudio(this)">Y</button>
+                        </div>
+                        <div class="vocal-col">
+                            <h4 style="color:var(--gold-light); margin-bottom:10px;">👃 Nasales</h4>
+                            <button class="vocal-btn" data-audio="audios/vocal-a-nasal.ogg" onclick="reproducirAudio(this)">Ã</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-e-nasal.ogg" onclick="reproducirAudio(this)">Ẽ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-i-nasal.ogg" onclick="reproducirAudio(this)">Ĩ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-o-nasal.ogg" onclick="reproducirAudio(this)">Õ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-u-nasal.ogg" onclick="reproducirAudio(this)">Ũ</button>
+                            <button class="vocal-btn" data-audio="audios/vocal-y-nasal.ogg" onclick="reproducirAudio(this)">Ỹ</button>
+                        </div>
+                    </div>
+                    <div class="audio-warning" id="audioWarning2" style="margin-top:8px;">Esperá a que termine el audio actual.</div>
+                    <p style="color:var(--text-muted); margin-top:14px; font-size:0.85rem; font-style:italic;">🗣️ Tápate la nariz e intentá pronunciar las nasales... ¡Es imposible! El aire necesita salir por la nariz para que suenen correctamente.</p>
+                    <p style="color:var(--text-muted); margin-top:6px; font-size:0.82rem;">Compará tocando una oral y luego su nasal correspondiente (A y Ã, E y Ẽ, etc.).</p>
+
+                    <!-- JUEGO CLASE 2 -->
+                    <h4 style="color:var(--gold-light); margin-top:24px; margin-bottom:10px;">🎮 Juego: Identificación auditiva</h4>
+                    <p style="color:var(--text-secondary); margin-bottom:10px;">Escuchá el sonido y decí si es una vocal <strong>Oral</strong> o <strong>Nasal</strong>:</p>
+                    <button class="game-btn" id="gameBtnOral" onclick="verificarJuego2('oral')">🗣️ Oral</button>
+                    <button class="game-btn" id="gameBtnNasal" onclick="verificarJuego2('nasal')">👃 Nasal</button>
+                    <button class="audio-btn" id="btnSonidoJuego2" data-audio="audios/vocal-a-nasal.ogg" onclick="reproducirAudioJuego(this)" style="margin-top:8px;">
+                        <span class="icon-play">▶</span> Reproducir sonido
+                    </button>
+                    <div class="game-feedback" id="gameFeedback2"></div>
+                    <p style="color:var(--text-muted); margin-top:8px; font-size:0.78rem;">Tocá "Reproducir sonido" para escuchar una vocal al azar y luego elegí.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PROYECTOS ==================== -->
+    <section class="section" id="proyectos">
+        <div class="section-label">Lo que hacemos</div>
+        <h2>Proyectos Institucionales</h2>
+        <p class="subtitle">Ferias, talleres, actividades solidarias, arte, ciencia y participación. La escuela late en cada proyecto.</p>
+        <div class="projects-grid">
+            <div class="project-card" onclick="mostrarDevMensaje('dev-proyecto1', this)">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);">🔬</div>
+                <div class="project-card-body"><h4>Feria de Ciencias</h4><p>Investigación, experimentación y creatividad estudiantil en acción.</p></div>
+            </div>
+            <div class="project-card" onclick="mostrarDevMensaje('dev-proyecto2', this)">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#3d2e1e,#c8a951);">🌿</div>
+                <div class="project-card-body"><h4>Guaraní</h4><p>Lengua, cultura e identidad. Un puente entre generaciones.</p></div>
+            </div>
+            <div class="project-card" onclick="mostrarDevMensaje('dev-proyecto3', this)">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#1e3a2e,#5b8c5a);">🤝</div>
+                <div class="project-card-body"><h4>Proyectos Solidarios</h4><p>Compromiso social y participación comunitaria desde la escuela.</p></div>
+            </div>
+            <div class="project-card" onclick="mostrarDevMensaje('dev-proyecto4', this)">
+                <div class="project-card-img" style="background:linear-gradient(135deg,#3a1e3a,#a855f7);">🎨</div>
+                <div class="project-card-body"><h4>Arte y Muralismo</h4><p>Expresión artística que transforma los espacios escolares.</p></div>
+            </div>
+        </div>
+        <div class="dev-msg" id="dev-proyecto1">Esta sección estará disponible próximamente con todos los detalles del proyecto.</div>
+        <div class="dev-msg" id="dev-proyecto2">Estamos preparando el contenido completo. ¡Volvé pronto!</div>
+        <div class="dev-msg" id="dev-proyecto3">La información detallada de proyectos solidarios estará disponible muy pronto.</div>
+        <div class="dev-msg" id="dev-proyecto4">La galería de arte y murales se está cargando. Gracias por tu interés.</div>
+    </section>
+
+    <!-- ==================== CENTRO DE ESTUDIANTES ==================== -->
+    <section class="section" id="centro-estudiantes">
+        <div class="section-label">Participación juvenil</div>
+        <h2>Centro de Estudiantes</h2>
+        <p class="subtitle">La voz de los estudiantes organizada, activa y comprometida con la vida escolar.</p>
+        <div class="card">
+            <h4 style="color:#fff; margin-bottom:10px;">🗳️ ¿Qué hacemos?</h4>
+            <p style="color:var(--text-secondary); margin-bottom:16px;">El Centro de Estudiantes organiza actividades culturales, recreativas y solidarias. Representa los intereses del alumnado y fomenta la participación democrática.</p>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Próximamente: cronograma de asambleas, propuestas 2025 y galería de eventos realizados.</p>
+        </div>
+    </section>
+
+    <!-- ==================== GALERÍA ==================== -->
+    <section class="section" id="galeria">
+        <div class="section-label">Momentos</div>
+        <h2>Galería Multimedia</h2>
+        <p class="subtitle">Imágenes que capturan la vida cotidiana de nuestra escuela: risas, aprendizaje, actos y comunidad.</p>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="abrirLightbox('https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80')">
+                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80" alt="Estudiantes en el aula" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="abrirLightbox('https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80')">
+                <img src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=600&q=80" alt="Acto escolar" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="abrirLightbox('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80')">
+                <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80" alt="Trabajo en grupo" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="abrirLightbox('https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80')">
+                <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&q=80" alt="Proyecto escolar" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="abrirLightbox('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80')">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" alt="Tecnología en el aula" loading="lazy">
+            </div>
+            <div class="gallery-item" onclick="abrirLightbox('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80')">
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80" alt="Comunidad educativa" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== NOTICIAS ==================== -->
+    <section class="section" id="noticias">
+        <div class="section-label">Novedades</div>
+        <h2>Noticias y Novedades</h2>
+        <p class="subtitle">Enterate de todo lo que pasa en la E.E.S N°32: eventos, comunicados y fechas importantes.</p>
+        <div class="news-item">
+            <div class="news-date">📅 24 de mayo de 2026</div>
+            <h4 style="color:#fff; margin:6px 0;">Acto por el 25 de Mayo</h4>
+            <p style="color:var(--text-secondary);">Invitamos a toda la comunidad al acto conmemorativo del viernes 23, turno mañana. Habrá presentaciones artísticas y feria de comidas típicas.</p>
+        </div>
+        <div class="news-item">
+            <div class="news-date">📅 10 de mayo de 2026</div>
+            <h4 style="color:#fff; margin:6px 0;">Inscripciones abiertas — Taller de Guaraní</h4>
+            <p style="color:var(--text-secondary);">Ya están abiertas las inscripciones para el taller de Lengua y Cultura Guaraní. Acercate a la biblioteca para anotarte.</p>
+        </div>
+        <div class="news-item">
+            <div class="news-date">📅 28 de abril de 2026</div>
+            <h4 style="color:#fff; margin:6px 0;">Elecciones del Centro de Estudiantes</h4>
+            <p style="color:var(--text-secondary);">Se realizarán las elecciones para renovar la comisión directiva. ¡Participá y hacé oír tu voz!</p>
+        </div>
+    </section>
+
+    <!-- ==================== CONTACTO ==================== -->
+    <section class="section" id="contacto">
+        <div class="section-label">Contacto</div>
+        <h2>Contacto</h2>
+        <p class="subtitle">¿Querés comunicarte con la escuela? Escribinos o acercate. Estamos para escucharte.</p>
+        <div class="card" style="max-width:580px;">
+            <p style="color:var(--text-secondary); margin-bottom:8px;">📧 <strong>Email:</strong> ees32@escuelas.edu.ar</p>
+            <p style="color:var(--text-secondary); margin-bottom:8px;">📞 <strong>Teléfono:</strong> (0237) 450-1234</p>
+            <p style="color:var(--text-secondary); margin-bottom:8px;">📍 <strong>Dirección:</strong> Barker entre Ascasubi y Trujui, Moreno, Buenos Aires</p>
+            <p style="color:var(--text-muted); font-size:0.85rem; margin-top:12px;">Horario de atención: lunes a viernes de 8:00 a 16:00 hs.</p>
+            <a href="https://www.google.com/maps?q=-34.585924,-58.7681032" target="_blank" rel="noopener" class="maps-link">📍 Abrir ubicación en Google Maps</a>
+        </div>
+    </section>
+
+    <!-- ==================== LIGHTBOX ==================== -->
+    <div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
+        <span class="lightbox-close" onclick="cerrarLightbox()">✕</span>
+        <img src="" alt="Imagen ampliada" id="lightboxImg">
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p>E.E.S N°32 — Escuela de Educación Secundaria N°32</p>
+        <p style="margin-top:4px;">Barker entre Ascasubi y Trujui · Moreno · Buenos Aires · Argentina</p>
+        <p style="margin-top:4px; opacity:0.6;">© 2026 — Construyendo identidad, dejando huella.</p>
+    </footer>
+
+    <script>
+        // ============ SLIDER AUTOMÁTICO ============
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.hero-dot');
+        const heroTitle = document.getElementById('heroTitle');
+        const heroSubtitle = document.getElementById('heroSubtitle');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        let sliderInterval;
+        const frases = [
+            { title: 'Bienvenidos a la E.E.S N°32', subtitle: 'Una escuela construida desde la identidad, la participación y la comunidad. Creciendo juntos, dejando huella.' },
+            { title: 'Educación e Interculturalidad',
+                subtitle: 'Valoramos nuestras raíces y abrazamos la diversidad cultural que nos enriquece como comunidad educativa.' },
+            { title: 'Lengua y Cultura Guaraní',
+                subtitle: 'Un puente entre generaciones. Rescatamos la memoria, la lengua y la identidad de nuestros pueblos originarios.' }
+        ];
+
+        function goToSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active-dot'));
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active-dot');
+            heroTitle.textContent = frases[currentSlide].title;
+            heroSubtitle.textContent = frases[currentSlide].subtitle;
+            // Reiniciar animación del contenido
+            const content = document.getElementById('heroContent');
+            content.style.animation = 'none';
+            content.offsetHeight;
+            content.style.animation = 'fadeInUpHero 1.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
+
+        function nextSlide() {
+            const next = (currentSlide + 1) % totalSlides;
+            goToSlide(next);
+        }
+
+        function startSlider() {
+            sliderInterval = setInterval(nextSlide, 4000);
+        }
+
+        function resetSlider() {
+            clearInterval(sliderInterval);
+            startSlider();
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.getAttribute('data-dot'));
+                goToSlide(idx);
+                resetSlider();
+                if (navigator.vibrate) navigator.vibrate(15);
+            });
+        });
+
+        startSlider();
+
+        // ============ AUDIO GLOBAL (único a la vez) ============
+        let audioActual = null;
+        let botonActual = null;
+
+        function reproducirAudio(boton) {
+            const audioSrc = boton.getAttribute('data-audio');
+
+            // Si ya hay un audio reproduciéndose y es OTRO botón
+            if (audioActual && botonActual && botonActual !== boton && !audioActual.paused) {
+                // Vibrar y mostrar advertencia
+                if (navigator.vibrate) navigator.vibrate([60, 80, 60]);
+                mostrarWarningAudio(boton);
+                return;
+            }
+
+            // Si es el mismo botón y está reproduciendo, lo pausamos
+            if (botonActual === boton && audioActual && !audioActual.paused) {
+                audioActual.pause();
+                boton.classList.remove('playing');
+                audioActual = null;
+                botonActual = null;
+                return;
+            }
+
+            // Si es el mismo botón pausado, lo reanudamos
+            if (botonActual === boton && audioActual && audioActual.paused) {
+                audioActual.play().catch(() => {});
+                boton.classList.add('playing');
+                return;
+            }
+
+            // Nuevo audio: detener el anterior
+            if (audioActual) {
+                audioActual.pause();
+                audioActual.currentTime = 0;
+            }
+            if (botonActual) {
+                botonActual.classList.remove('playing');
+            }
+
+            audioActual = new Audio(audioSrc);
+            botonActual = boton;
+            boton.classList.add('playing');
+
+            audioActual.play().catch(e => {
+                console.log('Audio no disponible:', e);
+                boton.classList.remove('playing');
+                mostrarToast('Audio no disponible aún', boton);
+                audioActual = null;
+                botonActual = null;
+            });
+
+            audioActual.onended = () => {
+                boton.classList.remove('playing');
+                audioActual = null;
+                botonActual = null;
+            };
+
+            if (navigator.vibrate) navigator.vibrate(25);
+            ocultarWarnings();
+        }
+
+        function mostrarWarningAudio(boton) {
+            ocultarWarnings();
+            // Buscar el warning más cercano
+            const warn1 = document.getElementById('audioWarning1');
+            const warn2 = document.getElementById('audioWarning2');
+            if (warn1 && warn1.offsetParent !== null) warn1.classList.add('show');
+            if (warn2 && warn2.offsetParent !== null) warn2.classList.add('show');
+            // Si no hay ninguno visible, mostrar toast
+            if ((!warn1 || warn1.offsetParent === null) && (!warn2 || warn2.offsetParent === null)) {
+                mostrarToast('⚠️ Esperá a que termine el audio actual.', boton);
+            }
+            setTimeout(ocultarWarnings, 2200);
+        }
+
+        function ocultarWarnings() {
+            const w1 = document.getElementById('audioWarning1');
+            const w2 = document.getElementById('audioWarning2');
+            if (w1) w1.classList.remove('show');
+            if (w2) w2.classList.remove('show');
+        }
+
+        function reproducirAudioJuego(boton) {
+            // Para el juego de la clase 2, elegir vocal al azar
+            const orales = ['audios/vocal-a.ogg', 'audios/vocal-e.ogg', 'audios/vocal-i.ogg', 'audios/vocal-o.ogg',
+                'audios/vocal-u.ogg', 'audios/vocal-y.ogg'
+            ];
+            const nasales = ['audios/vocal-a-nasal.ogg', 'audios/vocal-e-nasal.ogg', 'audios/vocal-i-nasal.ogg',
+                'audios/vocal-o-nasal.ogg', 'audios/vocal-u-nasal.ogg', 'audios/vocal-y-nasal.ogg'
+            ];
+            const todos = [...orales, ...nasales];
+            const elegido = todos[Math.floor(Math.random() * todos.length)];
+            boton.setAttribute('data-audio', elegido);
+            // Guardar si es oral o nasal para el juego
+            boton.setAttribute('data-tipo', orales.includes(elegido) ? 'oral' : 'nasal');
+            // Resetear feedback
+            const fb = document.getElementById('gameFeedback2');
+            if (fb) { fb.classList.remove('show', 'success', 'error');
+                fb.textContent = ''; }
+            reproducirAudio(boton);
+        }
+
+        function mostrarToast(mensaje, elemento) {
+            const toast = document.createElement('div');
+            toast.textContent = mensaje;
+            toast.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(25,25,30,0.92);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 22px;
+            font-size: 0.84rem;
+            z-index: 3000;
+            animation: fadeInMsg 0.3s, fadeOutMsg 0.3s 2s forwards;
+            pointer-events: none;
+            white-space: nowrap;
+          `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2400);
+        }
+
+        // ============ MENÚ LATERAL ============
+        function abrirMenu() {
+            document.getElementById('sideMenu').classList.add('active');
+            document.getElementById('menuOverlay').classList.add('active');
+            if (navigator.vibrate) navigator.vibrate(18);
+        }
+
+        function cerrarMenu() {
+            document.getElementById('sideMenu').classList.remove('active');
+            document.getElementById('menuOverlay').classList.remove('active');
+        }
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrarMenu(); });
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                cerrarMenu(); }
+        }
+
+        // ============ HEADER SCROLL EFFECT ============
+        const header = document.getElementById('mainHeader');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 60);
+            actualizarLinkActivo();
+        });
+
+        function actualizarLinkActivo() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#navDesktop a, #sideMenu a');
+            let currentId = 'hero';
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) currentId = sec.id;
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if (link.getAttribute('data-section') === currentId) link.classList.add('active-link');
+            });
+        }
+
+        // ============ LIGHTBOX ============
+        function abrirLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightboxImg').src = src;
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (navigator.vibrate) navigator.vibrate(15);
+        }
+
+        function cerrarLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('lightbox').classList.contains('active'))
+                cerrarLightbox();
+        });
+
+        // ============ MENSAJES DE DESARROLLO ============
+        function mostrarDevMensaje(id, elemento) {
+            document.querySelectorAll('.dev-msg').forEach(msg => msg.classList.remove('show'));
+            const msg = document.getElementById(id);
+            if (msg) {
+                msg.classList.add('show');
+                msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+            setTimeout(() => { if (msg) msg.classList.remove('show'); }, 3500);
+        }
+
+        // ============ TALLERES ============
+        function mostrarTaller(taller) {
+            const danza = document.getElementById('tallerDanza');
+            const guarani = document.getElementById('tallerGuarani');
+            const btnD = document.getElementById('btnTallerDanza');
+            const btnG = document.getElementById('btnTallerGuarani');
+            if (taller === 'danza') {
+                danza.style.display = 'block';
+                guarani.style.display = 'none';
+                btnD.classList.add('active-taller');
+                btnG.classList.remove('active-taller');
+            } else {
+                danza.style.display = 'none';
+                guarani.style.display = 'block';
+                btnG.classList.add('active-taller');
+                btnD.classList.remove('active-taller');
+            }
+            // Ocultar contenidos de clase
+            document.querySelectorAll('.clase-content').forEach(c => c.classList.remove('visible'));
+            document.querySelectorAll('.clase-btn').forEach(b => b.classList.remove('active-clase'));
+            document.querySelectorAll('.dev-msg').forEach(m => m.classList.remove('show'));
+            if (navigator.vibrate) navigator.vibrate(20);
+            // Scroll suave a la sección del taller
+            const target = taller === 'danza' ? danza : guarani;
+            setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+        }
+
+        function mostrarMensajeClase(boton, tipo) {
+            document.querySelectorAll('.clase-btn').forEach(b => b.classList.remove('active-clase'));
+            boton.classList.add('active-clase');
+            document.querySelectorAll('.clase-content').forEach(c => c.classList.remove('visible'));
+            const msgId = tipo === 'danza' ? 'msgDanza' : 'msgGuarani';
+            const msg = document.getElementById(msgId);
+            document.querySelectorAll('.dev-msg').forEach(m => m.classList.remove('show'));
+            if (msg) {
+                msg.textContent = '✨ Esta clase aún no está disponible. ¡Pronto compartiremos los primeros pasos!';
+                msg.classList.add('show');
+                msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            if (navigator.vibrate) navigator.vibrate([25, 40, 25]);
+            setTimeout(() => { if (msg) msg.classList.remove('show'); }, 3500);
+        }
+
+        function mostrarClaseGuarani(num, boton) {
+            document.querySelectorAll('.clase-btn').forEach(b => b.classList.remove('active-clase'));
+            boton.classList.add('active-clase');
+            document.querySelectorAll('.clase-content').forEach(c => c.classList.remove('visible'));
+            document.querySelectorAll('.dev-msg').forEach(m => m.classList.remove('show'));
+            const content = document.getElementById('clase' + num + 'Content');
+            if (content) {
+                content.classList.add('visible');
+                setTimeout(() => content.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+            }
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+
+        // ============ JUEGO CLASE 1 ============
+        function verificarJuego1(respuesta, boton) {
+            const fb = document.getElementById('gameFeedback1');
+            const btnA = document.getElementById('gameBtn1a');
+            const btnB = document.getElementById('gameBtn1b');
+            btnA.classList.remove('correct', 'incorrect');
+            btnB.classList.remove('correct', 'incorrect');
+            fb.classList.remove('show', 'success', 'error');
+            if (respuesta === 'chipa') {
+                boton.classList.add('correct');
+                fb.textContent = '✅ ¡Correcto! "Chipa" se escribe con CH, que es parte del Achegety.';
+                fb.classList.add('show', 'success');
+                if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+            } else {
+                boton.classList.add('incorrect');
+                btnA.classList.add('correct');
+                fb.textContent =
+                    '❌ "Yagua" no es correcto. En guaraní se escribe "Jagua" con J. La Y tiene sonido gutural, diferente al español.';
+                fb.classList.add('show', 'error');
+                if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
+            }
+            fb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                btnA.classList.remove('correct', 'incorrect');
+                btnB.classList.remove('correct', 'incorrect');
+                fb.classList.remove('show', 'success', 'error');
+            }, 4000);
+        }
+
+        // ============ JUEGO CLASE 2 ============
+        function verificarJuego2(respuesta) {
+            const fb = document.getElementById('gameFeedback2');
+            const btnSonido = document.getElementById('btnSonidoJuego2');
+            const tipoCorrecto = btnSonido.getAttribute('data-tipo');
+            fb.classList.remove('show', 'success', 'error');
+            if (!tipoCorrecto) {
+                fb.textContent = '⚠️ Primero tocá "Reproducir sonido" para escuchar una vocal.';
+                fb.classList.add('show', 'error');
+                if (navigator.vibrate) navigator.vibrate([50, 40, 50]);
+                setTimeout(() => fb.classList.remove('show', 'error'), 3000);
+                return;
+            }
+            if (respuesta === tipoCorrecto) {
+                fb.textContent = '✅ ¡Correcto! Identificaste bien el tipo de vocal.';
+                fb.classList.add('show', 'success');
+                if (navigator.vibrate) navigator.vibrate([40, 60, 40]);
+            } else {
+                fb.textContent = '❌ No es correcto. Volvé a escuchar el sonido y prestá atención a la nasalidad.';
+                fb.classList.add('show', 'error');
+                if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
+            }
+            fb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Resetear para otro intento
+            btnSonido.removeAttribute('data-tipo');
+            setTimeout(() => fb.classList.remove('show', 'success', 'error'), 4000);
+        }
+
+        // ============ OBSERVER PARA ANIMACIONES ============
+        const observerOptions = { threshold: 0.12, rootMargin: '0px 0px -35px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.card, .project-card, .news-item, .gallery-item, .timeline-item, .guarani-section')
+            .forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+                observer.observe(el);
+            });
+
+        // ============ INICIALIZACIÓN ============
+        document.addEventListener('DOMContentLoaded', () => {
+            actualizarLinkActivo();
+            setTimeout(() => {
+                document.querySelectorAll(
+                        '.card, .project-card, .news-item, .gallery-item, .timeline-item, .guarani-section')
+                    .forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.top < window.innerHeight) {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                        }
+                    });
+            }, 250);
+        });
+
+        document.getElementById('menuOverlay').addEventListener('click', cerrarMenu);
+
+        // ============ GESTOS TÁCTILES ============
+        let touchStartX = 0;
+        const sideMenu = document.getElementById('sideMenu');
+        sideMenu.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        sideMenu.addEventListener('touchmove', (e) => {
+            if (e.touches[0].clientX - touchStartX > 50) cerrarMenu();
+        }, { passive: true });
+
+        // Añadir estilo para fadeOut de toast
+        const fadeOutStyle = document.createElement('style');
+        fadeOutStyle.textContent =
+            '@keyframes fadeOutMsg { from { opacity:1; } to { opacity:0; transform:translateX(-50%) translateY(-10px); } }';
+        document.head.appendChild(fadeOutStyle);
+
+        console.log('🌱 E.E.S N°32 — Sitio web oficial cargado.');
+        console.log('💙 Construyendo identidad, dejando huella.');
+        console.log('📍 Barker entre Ascasubi y Trujui, Moreno, Buenos Aires.');
+    </script>
+</body>
+</html>
